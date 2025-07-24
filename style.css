@@ -5,11 +5,11 @@
 
 body {
   margin: 0;
-  background-image: url('bg4.jpg'); /* replace with your image path */
-  background-size: contain; /* Ensures the image keeps its 3:4 aspect ratio */
+  background-image: url('bg4.jpg'); 
+  background-size: contain; 
   background-repeat: no-repeat;
   background-position: center top;
-  background-color: #f4f4f4; /* fallback color */
+  background-color: #f4f4f4; 
   background-attachment: fixed;
   height: 100vh;
 }
@@ -86,10 +86,8 @@ body {
   margin: 30px;
   padding: 15px 25px;
   border-radius: 12px;
-  background: rgba(250, 204, 21, 0.85); /* semi-transparent golden */
+  background: rgba(250, 204, 21, 0.85); 
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(6px); /* frosted glass */
-  -webkit-backdrop-filter: blur(6px); /* Safari support */
 }
 
 .cps-container {
@@ -201,14 +199,4 @@ body {
 
 .button:hover {
   background-color: #059669;
-}
-.trademark {
-  position: relative;
- left: 50px;
-  font-size: 14px;
-  color: #555;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 5px 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
