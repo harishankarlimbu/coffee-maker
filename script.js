@@ -5,11 +5,13 @@
  **************/
 
 function updateCoffeeView(coffeeQty) {
-  // your code here
+  document.getElementById('coffee_counter').innerText = coffeeQty;
 }
 
 function clickCoffee(data) {
-  // your code here
+   data.coffee += 1;
+  updateCoffeeView(data.coffee);
+  renderProducers(data);
 }
 
 /**************
@@ -17,15 +19,21 @@ function clickCoffee(data) {
  **************/
 
 function unlockProducers(producers, coffeeCount) {
-  // your code here
+  for(let item in producers){
+    if(producers[item].price / 2 <= coffeeCount){
+      producers[item].unlocked = true;
+    }
+  }
 }
 
 function getUnlockedProducers(data) {
-  // your code here
+  return data.producers.filter((producer) => producer.unlocked === true)
 }
 
 function makeDisplayNameFromId(id) {
-  // your code here
+  return id.split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
 // You shouldn't need to edit this function-- its tests should pass once you've written makeDisplayNameFromId
@@ -50,11 +58,19 @@ function makeProducerDiv(producer) {
 }
 
 function deleteAllChildNodes(parent) {
-  // your code here
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
+  }
 }
 
 function renderProducers(data) {
-  // your code here
+  const producerContainer = document.getElementById('producer_container');
+  deleteAllChildNodes(producerContainer)
+  unlockProducers(data.producers, data.coffee);
+  getUnlockedProducers(data).forEach(producer => {
+    producerContainer.appendChild(makeProducerDiv(producer))
+  });;
+
 }
 
 /**************
@@ -62,32 +78,81 @@ function renderProducers(data) {
  **************/
 
 function getProducerById(data, producerId) {
-  // your code here
+  let arrayOFProducer = data.producers;
+  for(let obj of arrayOFProducer){
+    if(obj.id === producerId) return obj;
+  }
 }
 
 function canAffordProducer(data, producerId) {
-  // your code here
+  let arrayOFProducer = data.producers;
+  for(let obj of arrayOFProducer){
+    if(obj.id === producerId){
+      return obj.price <= data.coffee;
+    }
+  }
 }
 
 function updateCPSView(cps) {
-  // your code here
+  const cpsIndicator = document.getElementById('cps');
+  cpsIndicator.innerText = cps;
+
 }
 
 function updatePrice(oldPrice) {
-  // your code here
+  return Math.floor(oldPrice * 1.25);
 }
 
 function attemptToBuyProducer(data, producerId) {
-  // your code here
+  if (canAffordProducer(data, producerId)) {
+    let producer = getProducerById(data, producerId);
+
+    producer.qty += 1;
+    data.coffee -= producer.price;
+    producer.price = updatePrice(producer.price);
+    data.totalCPS += producer.cps;
+
+    return true;
+  } else return false;
 }
 
 function buyButtonClick(event, data) {
-  // your code here
+  if (event.target.tagName === 'BUTTON') {
+    const producerId = event.target.id.split('buy_')[1];
+
+    if (attemptToBuyProducer(data, producerId)) {
+      updateCoffeeView(data.coffee);
+      updateCPSView(data.totalCPS);
+      renderProducers(data);
+    } else window.alert('You Broke , You Cant Buy This');
+  }
+
 }
 
 function tick(data) {
-  // your code here
+  data.coffee += data.totalCPS;
+  updateCoffeeView(data.coffee);
+  renderProducers(data)
 }
+
+function saveDataToLocal(data) {
+  localStorage.setItem('coffeeData', JSON.stringify(data));
+}
+
+
+function getData() {
+  let dataFromStorage = JSON.parse(localStorage.getItem('coffeeData'));
+
+  if (dataFromStorage !== null) {
+    return dataFromStorage;
+  } else return window.data;
+}
+function renderAllData(data) {
+  updateCoffeeView(data.coffee);
+  renderProducers(data);
+  updateCPSView(data.totalCPS);
+}
+
 
 /*************************
  *  Start your engines!
@@ -106,7 +171,8 @@ function tick(data) {
 if (typeof process === 'undefined') {
   // Get starting data from the window object
   // (This comes from data.js)
-  const data = window.data;
+  const data = getData();
+  renderAllData(data);
 
   // Add an event listener to the giant coffee emoji
   const bigCoffee = document.getElementById('big_coffee');
@@ -121,6 +187,7 @@ if (typeof process === 'undefined') {
 
   // Call the tick function passing in the data object once per second
   setInterval(() => tick(data), 1000);
+  setInterval(() => saveDataToLocal(data), 5000);
 }
 // Meanwhile, if we aren't in a browser and are instead in node
 // we'll need to exports the code written here so we can import and

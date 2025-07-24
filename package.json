@@ -1,19 +1,28 @@
 {
   "name": "dom_homework",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "In a single evening in August 2013, French web developer Julien \"Orteil\" Thiennot coded a simple browser-based game called \"[Cookie Clicker](https://orteil.dashnet.org/cookieclicker/)\", hoping to direct some traffic to his personal website while also having some fun. Overnight, the game attracted some 50,000 players, within several months garnering 1.5 million page views per day. What began as a one-night project--and something of a joke--is now considered to be a founding entry in the genre of [\"idle\" or \"incremental\" games](https://en.wikipedia.org/wiki/Incremental_game), which account for a not insignificant percentage of the \\$550 million in revenue generated annually by casual, mobile video games.",
+  "homepage": "https://github.com/harishankarlimbu/coffee-maker#readme",
+  "bugs": {
+    "url": "https://github.com/harishankarlimbu/coffee-maker/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harishankarlimbu/coffee-maker.git"
+  },
+  "license": "ISC",
+  "author": "",
+
+  "main": "script.js",
   "scripts": {
     "test": "mocha script_test.js --watch",
     "start": "http-server . -p 8000 -o -c-1"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "chai": "^4.2.0",
-    "http-server": "^0.11.1",
-    "jsdom": "^15.1.1",
-    "mocha": "^6.1.4",
+    "http-server": "^14.1.1",
+    "jsdom": "^26.1.0",
+    "mocha": "^11.7.1",
     "sinon": "^7.3.2"
   }
 }
